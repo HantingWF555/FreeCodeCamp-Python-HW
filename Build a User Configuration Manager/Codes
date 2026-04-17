@@ -1,0 +1,36 @@
+test_settings = {'theme': 'dark', 'notifications': 'enabled', 'volume': 'high'}
+
+def add_setting(dic, tup):
+    tup_low = tuple(item.lower() for item in tup)
+    if tup_low[0] in dic:
+        return f'Setting \'{tup_low[0]}\' already exists! Cannot add a new setting with this name.'
+    if  tup_low[0] not in dic:
+        dic.update({tup_low[0]: tup_low[1]})
+        return f'Setting \'{tup_low[0]}\' added with value \'{tup_low[1]}\' successfully!'
+
+def update_setting(dic, tup):
+    tup_low = tuple(item.lower() for item in tup)
+    if tup_low[0] not in dic:
+        return f'Setting \'{tup_low[0]}\' does not exist! Cannot update a non-existing setting.'
+    if tup_low[0] in dic:
+        dic.update({tup_low[0]: tup_low[1]})
+        return f'Setting \'{tup_low[0]}\' updated to \'{tup_low[1]}\' successfully!'
+
+def delete_setting(dic, key):
+    key_low = key.lower()
+    if key_low not in dic:
+        return f'Setting not found!'
+    if key_low in dic:
+        dic.pop(key_low, None)
+        return f'Setting \'{key_low}\' deleted successfully!'
+    
+def view_settings(dic):
+    if len(dic) == 0:
+        return 'No settings available.'
+    if len(dic) != 0:
+        output = 'Current User Settings:'
+        for key, value in dic.items():
+            output += f'\n{key.capitalize()}: {value}'
+        return output + '\n'
+
+print(view_settings(test_settings))
