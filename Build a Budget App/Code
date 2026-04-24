@@ -1,0 +1,107 @@
+##### This HW is to practice class, and a loop for plotting
+
+class Category:
+    def __init__(self, name):
+        self.name = name
+        self.ledger = []
+    
+    def deposit(self, amount, description = ''):
+        self.ledger.append({'amount': amount, 'description': description})
+    
+    def withdraw(self, amount, description = ''):
+        if self.check_funds(amount):
+            self.ledger.append({'amount': - amount, 'description': description})
+            return True
+        else:
+            return False
+    
+    def get_balance(self):
+        balance = 0
+        for item in self.ledger:
+            balance += item['amount']
+        return balance
+    
+    def check_funds(self, amount):
+        if self.get_balance() >= amount:
+            return True
+        else:
+            return False
+        
+    def transfer(self, amount, another):
+        if self.check_funds(amount):
+            self.withdraw(amount, f'Transfer to {another.name}')
+            another.deposit(amount, f'Transfer from {self.name}')
+            return True
+        else:
+            return False
+    def __str__(self):
+        output = self.name.center(30, "*") + "\n"
+    
+        for item in self.ledger:
+            desc = item['description'][:23].ljust(23)
+            amt = f"{item['amount']:>7.2f}"
+            output += f"{desc}{amt}\n"
+        output += f"Total: {self.get_balance()}"
+        return output
+        
+
+        
+def create_spend_chart(categories):
+    display = 'Percentage spent by category\n'
+    total_spend = 0
+    spend_dic = {}
+    for cat in categories:
+        cat_spend = 0
+        for item in cat.ledger:
+            if item['amount'] < 0:
+                cat_spend += abs(item['amount'])
+        spend_dic[cat.name] = cat_spend
+        total_spend += cat_spend
+    
+    for name, amount in spend_dic.items():
+        spend_dic[name] = ((amount / total_spend)*100//10)*10
+    
+    cat_count = len(categories)
+    for i in range(100, -10, -10):
+        display += str(i).rjust(3) + '| '
+        for name in spend_dic:
+            if spend_dic[name] >= i:
+                display += 'o  '
+            else:
+                display += '   '
+        display += '\n'
+    display += '    ' + (len(spend_dic)*3) * '-' + '-\n'
+
+    max_len = max(len(name) for name in spend_dic)
+
+    for i in range(max_len):
+        display += '     '
+        for name in spend_dic:
+            if i < len(name):
+                display += name[i] + '  '
+            else:
+                display += '   '
+        if i < max_len - 1:
+            display += '\n'
+        
+    return display
+        
+food = Category('Food')
+food.deposit(1000, 'initial deposit')
+food.withdraw(10.15, 'groceries')
+food.withdraw(15.89, 'restaurant and more food for dessert')
+clothing = Category('Clothing')
+food.transfer(50, clothing)
+clothing.deposit(200, 'budget for clothes')
+clothing.withdraw(100, 'Man I love Nike')
+auto = Category('Auto')
+auto.deposit(500, 'prepare for car')
+auto.withdraw(100, 'tire change')
+food.withdraw(15, 'Durian')
+fun = Category('Entertament')
+auto.transfer(200, fun)
+fun.withdraw(150, 'park year membership')
+
+
+budget = [food,clothing, auto, fun]
+print(create_spend_chart(budget))
