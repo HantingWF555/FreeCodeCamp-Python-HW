@@ -1,4 +1,4 @@
-##### This workspace is for practicing Inheritance #####
+##### This workspace is for practicing Inheritance and Polymorphism #####
 
 class MediaError(Exception):
     """Custom exception for media-related errors."""
