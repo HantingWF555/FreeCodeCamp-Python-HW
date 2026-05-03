@@ -1,0 +1,41 @@
+####### Hint from Gemini: we need to get the drawer first and slide the content in to avoid KeyError for the add method #######
+
+class HashTable:
+    def __init__(self):
+        self.collection = {}
+    
+    def hash(self, string):
+        self.string = string
+        unisum = sum(map(ord, self.string))
+        return unisum
+    
+    def add(self, key, value):
+        key_hash = self.hash(key)
+        if key_hash not in self.collection:
+            self.collection[key_hash] = {}
+        self.collection[key_hash][key] = value
+    
+    def remove(self, key):
+        key_hash = self.hash(key)
+        if key_hash in self.collection:
+            self.collection[key_hash].pop(key, None)
+        else:
+            return
+    
+    def lookup(self, key):
+        key_hash = self.hash(key)
+        if key_hash not in self.collection:
+            return None
+        else:
+            return self.collection[key_hash].get(key)
+
+
+hashhh = HashTable()
+print(hashhh.hash('golf'))
+print(hashhh.hash('sport'))
+hashhh.add('golf', 'sport')
+hashhh.add('dear', 'friend')
+hashhh.add('read', 'book')
+hashhh.lookup('golf')
+print(hashhh.collection)
+print(hashhh.lookup('golf'))
