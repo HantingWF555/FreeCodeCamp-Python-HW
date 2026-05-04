@@ -1,0 +1,21 @@
+def square_root_bisection(num, tol = 0.00001, max_ite = 10000):
+
+    if num < 0:
+        raise ValueError("Square root of negative number is not defined in real numbers")
+    elif num == 0 or num ==1:
+        print(f'The square root of {num} is {num}')
+        return num
+    else: 
+        low = 0
+        high = max(1, num)
+        for i in range(max_ite):
+            mid = (low + high) / 2
+            if abs(mid - num**0.5) < tol:
+                print(f'The square root of {num} is approximately {mid}')
+                return mid
+            elif mid**2 > num:
+                high = mid
+            else:
+                low = mid
+        print(f'Failed to converge within {max_ite} iterations')
+        return None
