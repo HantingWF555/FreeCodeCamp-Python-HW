@@ -1,0 +1,22 @@
+def verify_card_number(card_num):
+    digit = [int(n) for n in str(card_num) if n.isdigit()]
+
+    reverse_digit = digit[::-1]
+    
+    numsum = 0
+
+    for i, n in enumerate(reverse_digit):
+        if i % 2 == 1:
+            double = n *2
+            if double > 9:
+                double -= 9
+            numsum += double
+        else:
+            numsum += n
+    
+    if numsum % 10 == 0:
+        return "VALID!"
+    else:
+        return "INVALID!"
+    
+print(verify_card_number('4111-1111-1111-1111'))
