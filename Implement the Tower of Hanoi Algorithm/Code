@@ -1,0 +1,26 @@
+######## This code is for practicing recursion code #########
+
+def hanoi_solver(n):
+    if n <= 0:
+        return
+    else:
+        A = list(range(n, 0, -1))
+        B = []
+        C = []
+        history = []
+
+        def save():
+            string = f'{A} {B} {C}'
+            history.append(string)
+        save()
+    
+        def move(n, source, target, middle):
+            if n > 0:
+                move(n-1, source, middle, target)
+                target.append(source.pop())
+                save()
+                move(n-1, middle, target, source)
+        move(n, A, C, B)
+        return '\n'.join(history)
+
+print(hanoi_solver(3))
