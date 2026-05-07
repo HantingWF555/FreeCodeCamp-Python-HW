@@ -1,0 +1,17 @@
+def fibonacci(n):
+    sequence = [0, 1]
+    memo = {}
+
+    if n <= 1:
+        return sequence[n]
+
+    bunny = [0] * (n+1)
+    bunny[0] = 0
+    bunny[1] = 1
+
+    for i in range(2, n+1):
+        bunny[i] = bunny[i - 1] + bunny [i - 2]
+
+    return bunny[n]
+
+print(fibonacci(15))
