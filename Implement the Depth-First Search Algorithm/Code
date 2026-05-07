@@ -1,0 +1,12 @@
+def dfs(matrix, node):
+    visit = []
+    def walk(current_node):
+        if current_node not in visit:
+            visit.append(current_node)
+            for neighbour, connect in enumerate(matrix[current_node]):
+                if connect == 1 and neighbour not in visit:
+                    walk(neighbour)
+    walk(node)
+    return visit
+    
+print(dfs([[0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0]], 1))
